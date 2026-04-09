@@ -39,8 +39,8 @@ Réponds uniquement avec le texte de la réponse.`;
   const { error: dbError } = await supabase.from('Avis').insert([{
     'clients nom': reviewerName,
     'Texte_Avis': reviewText,
-    'Nombre_Étoiles': stars,
-    'réponse_ia': reponse_ia
+    'Nombre_\u00c9toiles': stars,
+    'r\u00e9ponse_ia': reponse_ia
   }]);
 
   if (dbError) {
