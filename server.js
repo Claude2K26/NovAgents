@@ -17,14 +17,10 @@ app.get('/', (req, res) => {
 
 app.post('/test-avis', async (req, res) => {
   const { reviewerName, reviewText, stars } = req.body;
-  const sentiment = stars >= 4 ? 'positif' : stars === 3 ? 'neutre' : 'négatif';
-  const prompt = `Tu es le community manager d'un restaurant. Rédige une réponse professionnelle et chaleureuse à cet avis Google ${sentiment} (${stars}/5 étoiles).
-Avis de ${reviewerName} : "${reviewText}"
-Règles : 2-4 phrases maximum, ton chaleureux, personnalisé, pas de formule générique.
-Réponds uniquement avec le texte de la réponse.`;
+  const sentiment = stars >= 4 ? 'positif' : stars === 3 ? 'neutre' : 'negatif';
+  const prompt = `Tu es le community manager d un restaurant. Redige une reponse professionnelle a cet avis Google ${sentiment} (${stars}/5 etoiles). Avis de ${reviewerName} : "${reviewText}". Regles : 2-4 phrases, ton chaleureux, personnalise. Reponds uniquement avec le texte de la reponse.`;
 
   let reponse_ia = null;
-
   try {
     const message = await client.messages.create({
       model: 'claude-haiku-4-5-20251001',
@@ -37,10 +33,10 @@ Réponds uniquement avec le texte de la réponse.`;
   }
 
   const { error: dbError } = await supabase.from('Avis').insert([{
-    'clients nom': reviewerName,
-    'Texte_Avis': reviewText,
-    'Nombre_\u00c9toiles': stars,
-    'r\u00e9ponse_ia': reponse_ia
+    clients_nom: reviewerName,
+    texte_avis: reviewText,
+    nombre_etoiles: stars,
+    reponse_ia: reponse_ia
   }]);
 
   if (dbError) {
@@ -52,5 +48,5 @@ Réponds uniquement avec le texte de la réponse.`;
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`✅ NovAgent Server démarré sur le port ${PORT}`);
+  console.log(`NovAgent Server demarre sur le port ${PORT}`);
 });
